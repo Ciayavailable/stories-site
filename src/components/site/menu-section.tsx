@@ -59,7 +59,7 @@ function ItemRow({ item, onOpen }: { item: MenuItem; onOpen: (item: MenuItem) =>
           type="button"
           onClick={() => onOpen(item)}
           aria-haspopup="dialog"
-          className="group block w-full cursor-pointer py-5 text-left transition-colors hover:bg-white/5"
+          className="group -mx-4 block w-[calc(100%_+_2rem)] cursor-pointer px-4 py-5 text-left transition-colors hover:bg-white/5"
         >
           {content}
         </button>
