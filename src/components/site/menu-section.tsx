@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { X } from 'lucide-react';
 import { MENU, type MenuItem, type MenuGroup } from '@/lib/menu-data';
 
 function Price({ value }: { value: string }) {
@@ -18,14 +19,19 @@ function Price({ value }: { value: string }) {
   );
 }
 
-function ItemRow({ item }: { item: MenuItem }) {
-  return (
-    <li className="py-5">
+function ItemRow({ item, onOpen }: { item: MenuItem; onOpen: (item: MenuItem) => void }) {
+  const content = (
+    <>
       <div className="flex items-baseline gap-3">
         <h3 className="text-base font-medium text-white sm:text-lg">{item.name}</h3>
         {item.hit && (
           <span className="shrink-0 border border-white/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-neutral-300">
             Хит
+          </span>
+        )}
+        {item.photo && (
+          <span className="shrink-0 border border-white/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-neutral-300 opacity-70 transition-opacity group-hover:opacity-100">
+            Фото
           </span>
         )}
         {item.price && (
@@ -43,11 +49,34 @@ function ItemRow({ item }: { item: MenuItem }) {
           {item.description}
         </p>
       )}
-    </li>
+    </>
   );
+
+  if (item.photo) {
+    return (
+      <li>
+        <button
+          type="button"
+          onClick={() => onOpen(item)}
+          aria-haspopup="dialog"
+          className="group -mx-4 block w-full cursor-pointer px-4 py-5 text-left transition-colors hover:bg-white/5"
+        >
+          {content}
+        </button>
+      </li>
+    );
+  }
+
+  return <li className="py-5">{content}</li>;
 }
 
-function GroupBlock({ group }: { group: MenuGroup }) {
+function GroupBlock({
+  group,
+  onOpen,
+}: {
+  group: MenuGroup;
+  onOpen: (item: MenuItem) => void;
+}) {
   return (
     <div>
       {group.title && (
@@ -57,16 +86,88 @@ function GroupBlock({ group }: { group: MenuGroup }) {
       )}
       <ul className="divide-y divide-white/10">
         {group.items.map((item) => (
-          <ItemRow key={`${group.title ?? 'list'}-${item.name}`} item={item} />
+          <ItemRow
+            key={`${group.title ?? 'list'}-${item.name}`}
+            item={item}
+            onOpen={onOpen}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
+function DishModal({ item, onClose }: { item: MenuItem; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.name}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.98 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-white/15 bg-neutral-950 shadow-2xl"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Закрыть"
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center bg-black/60 text-white/80 transition-colors hover:bg-black hover:text-white"
+        >
+          <X size={18} />
+        </button>
+        {item.photo && (
+          <img
+            src={item.photo}
+            alt={item.name}
+            decoding="async"
+            className="dish-photo aspect-square w-full object-cover"
+          />
+        )}
+        <div className="p-5">
+          <div className="flex items-baseline justify-between gap-3">
+            <h3 className="text-lg font-medium text-white">{item.name}</h3>
+            {item.price && (
+              <span className="shrink-0 text-base font-semibold text-white">
+                {item.price} ₽
+              </span>
+            )}
+          </div>
+          {item.detail && (
+            <p className="mt-2 text-sm leading-relaxed text-neutral-400">{item.detail}</p>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function MenuSection() {
   const [active, setActive] = useState(MENU[0].id);
   const [pageIndex, setPageIndex] = useState(0);
+  const [selected, setSelected] = useState<MenuItem | null>(null);
   const category = MENU.find((c) => c.id === active) ?? MENU[0];
   const pages = category.pages;
   const page = pages ? Math.min(pageIndex, pages.length - 1) : 0;
@@ -158,11 +259,19 @@ export function MenuSection() {
               </p>
             )}
             {groups.map((group, gi) => (
-              <GroupBlock key={group.title ?? `${category.id}-${page}-${gi}`} group={group} />
+              <GroupBlock
+                key={group.title ?? `${category.id}-${page}-${gi}`}
+                group={group}
+                onOpen={setSelected}
+              />
             ))}
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {selected && <DishModal item={selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
     </section>
   );
 }
