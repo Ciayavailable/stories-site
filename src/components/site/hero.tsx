@@ -28,12 +28,12 @@ export function Hero() {
         <p className="mb-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs uppercase tracking-[0.3em] text-neutral-300 sm:text-sm">
           <span className="inline-flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" aria-hidden />
-            Сочи · ул. Виноградная, 2/3
+            Сочи · ул. Виноградная, 2/3Б
           </span>
           <span className="hidden text-neutral-600 sm:inline">·</span>
           <span className="inline-flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5" aria-hidden />
-            Ежедневно до 22:00
+            Ежедневно до 21:00
           </span>
         </p>
 

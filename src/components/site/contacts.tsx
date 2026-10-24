@@ -4,19 +4,19 @@ import { motion } from 'framer-motion';
 import { Clock, MapPin, Star } from 'lucide-react';
 
 const MAPS_URL = `https://yandex.ru/maps/?text=${encodeURIComponent(
-  'Сочи, улица Виноградная 2/3'
+  'Сочи, улица Виноградная 2/3Б'
 )}`;
 
 const CARDS = [
   {
     icon: MapPin,
     title: 'Адрес',
-    lines: ['г. Сочи, ул. Виноградная, 2/3'],
+    lines: ['г. Сочи, ул. Виноградная, 2/3Б'],
   },
   {
     icon: Clock,
     title: 'Часы работы',
-    lines: ['Ежедневно', 'Открыто до 22:00'],
+    lines: ['Ежедневно', 'Открыто до 21:00'],
   },
   {
     icon: Star,
