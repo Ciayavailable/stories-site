@@ -71,7 +71,7 @@ $env:NEXT_OUTPUT_EXPORT="1"; bunx next build
 
 ## 🛠 Деплой на хостинг
 
-**Хостинг:** Reg.ru (ISPmanager) · домен stories-sochi.ru → `SERVER_IP`
+**Хостинг:** Reg.ru (ISPmanager) · домен stories-sochi.ru
 
 **Вариант 1 — через панель:**
 1. Собрать проект (см. выше)
@@ -84,14 +84,14 @@ $env:NEXT_OUTPUT_EXPORT="1"; bunx next build
 ```powershell
 Get-ChildItem -Recurse -File out | ForEach-Object {
   $rel = $_.FullName.Substring((Resolve-Path out).Path.Length + 1).Replace('\','/')
-  curl.exe -s -S --ftp-create-dirs -T $_.FullName "ftp://ЛОГИН:ПАРОЛЬ@SERVER_IP/www/stories-sochi.ru/$rel"
+  curl.exe -s -S --ftp-create-dirs -T $_.FullName "ftp://user:password@hosting-server/www/stories-sochi.ru/$rel"
 }
 ```
 
 > [!NOTE]
-> - FTP-доступы: панель Reg.ru → карточка хостинга → вкладка **«Доступы»**
-> - Перед массовой загрузкой старую версию можно переносить в бэкап-папку на сервере
->   (сейчас лежит в `/www/backup/`)
+> - Логин, пароль и адрес FTP-сервера — в личном кабинете хостинга
+>   (Reg.ru → карточка хостинга → вкладка **«Доступы»**)
+> - Перед массовой загрузкой старую версию удобно переносить в бэкап-папку на сервере
 > - `.htaccess` уже внутри `out/` — HTML отдаётся с `no-cache`, hashed-ассеты с годичным кэшем
 > - Если изменения не видны — **Ctrl+F5**
 
@@ -177,14 +177,13 @@ pages: [
 
 | | |
 |---|---|
-| **Домен** | stories-sochi.ru (Reg.ru, NS → NS_SERVERS) |
-| **Хостинг** | Reg.ru, тариф «Хост-0», панель ISPmanager, сервер `hosting-server` |
-| **SSL** | Let's Encrypt (le1), продлевается автоматически |
-| **Оплачен до** | ДД.ММ.ГГГГ |
+| **Домен** | stories-sochi.ru |
+| **Хостинг** | Reg.ru, панель ISPmanager |
+| **SSL** | Let's Encrypt, продлевается автоматически |
 
 > [!IMPORTANT]
-> Баланс аккаунта Reg.ru — **0 ₽**. Пополнить заранее, иначе после ДД.ММ.ГГГГ
-> сайт перестанет открываться. Автопродление ДД.ММ.ГГГГ — нужна привязанная карта.
+> Следите за сроком оплаты хостинга в личном кабинете Reg.ru — при просрочке
+> сайт перестанет открываться.
 
 ---
 
