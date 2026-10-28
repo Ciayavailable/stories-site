@@ -5,10 +5,30 @@ import {
   CakeSlice,
   Clock,
   Coffee,
-  Croissant,
   MapPin,
   Milk,
 } from 'lucide-react';
+
+/** Стопка сырников — кастомная иконка в стиле lucide */
+function SyrnikiIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <ellipse cx="12" cy="5.5" rx="7.5" ry="2.8" />
+      <path d="M4.5 5.5v3.2c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8V5.5" />
+      <path d="M4.5 8.7v3.2c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8V8.7" />
+      <path d="M4.5 11.9v3.6c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-3.6" />
+    </svg>
+  );
+}
 
 const FEATURES = [
   {
@@ -17,7 +37,7 @@ const FEATURES = [
     text: 'Классика, фильтр и авторские рафы — от медового и лавандового до «дубайского шоколада».',
   },
   {
-    icon: Croissant,
+    icon: SyrnikiIcon,
     title: 'Завтраки',
     text: 'Сырники, шакшука, скрэмбл и зелёная гречка — заказывайте к открытию и к самому закрытию.',
   },
