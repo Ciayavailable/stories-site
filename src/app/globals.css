@@ -20,14 +20,6 @@ img {
   pointer-events: none;
 }
 
-/* Единая цветовая гамма фото блюд: лёгкое обесцвечивание + тёплый тон,
-   чтобы снимки из разного света смотрелись одной серией; насыщенность
-   сохранена достаточно, чтобы цвета еды различались */
-.dish-photo {
-  filter: saturate(0.85) contrast(1.05) brightness(0.97) sepia(0.18)
-    hue-rotate(-6deg);
-}
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
