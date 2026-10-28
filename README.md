@@ -9,7 +9,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![framer-motion](https://img.shields.io/badge/framer--motion-11-FF0080?logo=framer&logoColor=white)
-![Bun](https://img.shields.io/badge/Bun- runner-FBF0DF?logo=bun&logoColor=black)
+![Bun](https://img.shields.io/badge/Bun-runner-FBF0DF?logo=bun&logoColor=black)
 
 **Публикуется как статика** — без Node.js на сервере. Обычный хостинг + `out/`.
 
